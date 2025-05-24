@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cube Timer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEN1YmUgSWNvbiAtLT4KICA8cGF0aCBkPSJNNiA4TDEyIDRMMjYgMTBMMjAgMTRMNiA4WiIgZmlsbD0iIzAwN2JmZiIvPgogIDxwYXRoIGQ9Ik02IDhWMjJMMTIgMjZWMTJMNiA4WiIgZmlsbD0iIzAwNTZiMyIvPgogIDxwYXRoIGQ9Ik0xMiAyNkwyNiAyMlYxMEwyMCAxNEwxMiAyNloiIGZpbGw9IiMwMDQ2OWIiLz4KPC9zdmc+" />
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --bg-color: #ffffff;
+      --text-color: #333;
+      --accent: #f0f0f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    body.dark-theme {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --accent: #1f1f1f;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+      z-index: 100;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      fill: currentColor;
+    }
+
+    .scramble-container {
+      background-color: var(--accent);
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+      z-index: 100;
+    }
+
+    .scramble-text {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      word-spacing: 0.3rem;
+      line-height: 1.4;
+    }
+
+    .scramble-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .scramble-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .scramble-btn:hover {
+      opacity: 0.8;
+    }
+
+    .content-container {
+      display: flex;
+      flex: 1;
+      position: relative;
+      min-height: calc(100vh - 200px);
+    }
+
+    .sidebar {
+      width: 300px;
+      background-color: var(--accent);
+      padding: 1rem;
+      overflow-y: auto;
+      position: relative;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+
+    .main-content {
+      flex: 1;
+      position: relative;
+      min-height: 100%;
+    }
+
+    .timer-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      padding: 2rem;
+      border-radius: 10px;
+      transition: background-color 0.2s;
+      z-index: 10;
+      min-width: 300px;
+    }
+
+    .timer-container:hover {
+      background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    .timer-container.preparing {
+      background-color: rgba(0, 255, 0, 0.1);
+    }
+
+    .timer-container.timing {
+      background-color: rgba(255, 165, 0, 0.1);
+    }
+
+    #timer {
+      font-size: 5rem;
+      margin: 1rem 0;
+      font-weight: bold;
+    }
+
+    .help-text {
+      font-size: 1rem;
+      color: gray;
+    }
+
+    .timer-state {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    h2, h3 {
+      margin-top: 1.5rem;
+    }
+
+    .theme-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 0.5rem;
+      align-items: center;
+    }
+
+    .theme-option {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .theme-option.active {
+      border: 2px solid var(--primary-color);
+    }
+
+    .theme-blue { background: #007bff; }
+    .theme-green { background: #28a745; }
+    .theme-red { background: #dc3545; }
+    .theme-purple { background: #6f42c1; }
+
+    .custom-color-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .switch input { display: none; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 20px;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    .switch input:checked + .slider {
+      background-color: var(--primary-color);
+    }
+
+    .switch input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .stat-item {
+      background: var(--bg-color);
+      padding: 0.5rem;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .history-list {
+      margin-top: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #ddd;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .solve-number {
+      font-weight: bold;
+      min-width: 25px;
+      color: var(--text-color);
+    }
+
+    .solve-time {
+      flex: 1;
+      text-align: center;
+    }
+
+    .solve-date {
+      font-size: 0.8rem;
+      color: #666;
+      min-width: 60px;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: red;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      min-width: 20px;
+    }
+
+    .dark-theme .history-item {
+      border-color: #444;
+    }
+
+    .dark-theme .scramble-container {
+      border-color: #444;
+    }
+
+    .dark-theme .solve-date {
+      color: #aaa;
+    }
+
+    .settings-section {
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-option input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+
+    .history-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .clear-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .clear-btn:hover {
+      background-color: #c82333;
+    }
+
+    .export-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .export-btn:hover {
+      opacity: 0.8;
+    }
+
+    .confirmation-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: var(--bg-color);
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 1rem;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .modal-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .confirm-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .download-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ddd;
+    }
+
+    .dark-theme .download-section {
+      border-color: #444;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .content-container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        order: 2;
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+
+      .main-content {
+        order: 1;
+        min-height: 50vh;
+      }
+
+      .timer-container {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        padding: 1rem;
+        min-width: auto;
+      }
+
+      #timer {
+        font-size: 3rem;
+        margin: 0.5rem 0;
+      }
+
+      .help-text {
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .scramble-text {
+        font-size: 1rem;
+      }
+
+      .scramble-controls {
+        gap: 0.5rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .history-list {
+        max-height: 150px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.5rem;
+      }
+
+      .scramble-container {
+        padding: 0.5rem;
+      }
+
+      .sidebar {
+        padding: 0.5rem;
+      }
+
+      #timer {
+        font-size: 2.5rem;
+      }
+
+      .timer-state {
+        font-size: 1rem;
+      }
+
+      .help-text {
+        font-size: 0.8rem;
+      }
+
+      .scramble-text {
+        font-size: 0.9rem;
+        word-spacing: 0.2rem;
+      }
+
+      .checkbox-option {
+        font-size: 0.9rem;
+      }
+
+      .scramble-btn, .export-btn, .clear-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+      }
+    }
+
+    /* Tablet Portrait */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .sidebar {
+        width: 250px;
+      }
+
+      #timer {
+        font-size: 4rem;
+      }
+    }
+
+    /* Large Desktop */
+    @media (min-width: 1400px) {
+      .sidebar {
+        width: 350px;
+      }
+
+      #timer {
+        font-size: 6rem;
+      }
+
+      .timer-container {
+        min-width: 400px;
+      }
+    }
+ 
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <svg class="logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 8L12 4L26 10L20 14L6 8Z" fill="currentColor" opacity="0.9"/>
+        <path d="M6 8V22L12 26V12L6 8Z" fill="currentColor" opacity="0.7"/>
+        <path d="M12 26L26 22V10L20 14L12 26Z" fill="currentColor" opacity="0.5"/>
+      </svg>
+      <h1>Cube Timer</h1>
+    </header>
+    
+    <div class="scramble-container">
+      <div class="scramble-text" id="scramble-text">R U R' U' R' F R2 U' R' U' R U R' F'</div>
+      <div class="scramble-controls">
+        <button class="scramble-btn" id="new-scramble">New Scramble</button>
+        <div class="checkbox-option">
+          <input type="checkbox" id="auto-scramble" checked>
+          <label for="auto-scramble">Auto-generate after solve</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-container">
+      <div class="sidebar">
+        <div class="settings-section">
+          <h2>Settings</h2>
+          <div class="dark-mode-toggle">
+            <label class="switch">
+              <input type="checkbox" id="darkModeToggle">
+              <span class="slider"></span>
+            </label>
+            <span>Dark Mode</span>
+          </div>
+
+          <h3>Theme Color</h3>
+          <div class="theme-options">
+            <div class="theme-option theme-blue" data-theme="#007bff"></div>
+            <div class="theme-option theme-green" data-theme="#28a745"></div>
+            <div class="theme-option theme-red" data-theme="#dc3545"></div>
+            <div class="theme-option theme-purple" data-theme="#6f42c1"></div>
+            <div class="custom-color-container">
+              <input type="color" id="customColorPicker" title="Choose custom color" />
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h2>Stats</h2>
+          <div class="stats-grid">
+            <div class="stat-item"><strong>Avg of 5</strong><br><span id="ao5">-</span></div>
+            <div class="stat-item"><strong>Avg of 12</strong><br><span id="ao12">-</span></div>
+            <div class="stat-item"><strong>Best</strong><br><span id="best-time">-</span></div>
+            <div class="stat-item"><strong>Worst</strong><br><span id="worst-time">-</span></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h2>History</h2>
+          <div class="checkbox-option">
+            <input type="checkbox" id="show-numbering" checked>
+            <label for="show-numbering">Show solve numbers</label>
+          </div>
+          <div class="history-controls">
+            <button class="clear-btn" id="clear-history">Clear All</button>
+            <button class="export-btn" id="export-history">Export</button>
+          </div>
+          <div class="history-list" id="history-list"></div>
+        </div>
+
+        <div class="download-section">
+          <h3>Download App</h3>
+          <button class="export-btn" id="download-app">Download Timer</button>
+          <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+            Download this timer as a standalone HTML file
+          </p>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="timer-container" id="timer-container">
+          <div class="timer-state">Ready</div>
+          <div id="timer">0.000</div>
+          <p class="help-text">Hold <strong>SPACE</strong> or <strong>CLICK</strong> to prepare, release to start.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="confirmation-modal" id="confirmation-modal">
+    <div class="modal-content">
+      <h3>Clear All History?</h3>
+      <p>This action cannot be undone. All your solve times and statistics will be permanently deleted.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel-btn" id="cancel-clear">Cancel</button>
+        <button class="modal-btn confirm-btn" id="confirm-clear">Clear All</button>
+      </div>
+    </div>
+  </div>
+   <script>
+    
+document.addEventListener('DOMContentLoaded', function () {
+  const body = document.body;
+  const darkToggle = document.getElementById('darkModeToggle');
+  const themeOptions = document.querySelectorAll('.theme-option');
+  const customColor = document.getElementById('customColorPicker');
+  const timerEl = document.getElementById('timer');
+  const timerState = document.querySelector('.timer-state');
+  const timerContainer = document.getElementById('timer-container');
+  const historyList = document.getElementById('history-list');
+  const scrambleText = document.getElementById('scramble-text');
+  const newScrambleBtn = document.getElementById('new-scramble');
+  const autoScrambleCheckbox = document.getElementById('auto-scramble');
+  const showNumberingCheckbox = document.getElementById('show-numbering');
+  const clearHistoryBtn = document.getElementById('clear-history');
+  const exportHistoryBtn = document.getElementById('export-history');
+  const downloadAppBtn = document.getElementById('download-app');
+  const confirmationModal = document.getElementById('confirmation-modal');
+  const cancelClearBtn = document.getElementById('cancel-clear');
+  const confirmClearBtn = document.getElementById('confirm-clear');
+
+  let startTime, interval;
+  let preparing = false;
+  let timing = false;
+  let history = [];
+  let solveCounter = 0;
+
+  // Cube scramble moves
+  const scrambleMoves = ['R', "R'", 'R2', 'L', "L'", 'L2', 'U', "U'", 'U2', 'D', "D'", 'D2', 'F', "F'", 'F2', 'B', "B'", 'B2'];
+
+  // Generate scramble avoiding same face move consecutively
+  function generateScramble() {
+    const scrambleLength = 20;
+    let scramble = [];
+    let lastFace = '';
+    for (let i = 0; i < scrambleLength; i++) {
+      let move;
+      do {
+        move = scrambleMoves[Math.floor(Math.random() * scrambleMoves.length)];
+      } while (move[0] === lastFace);
+      scramble.push(move);
+      lastFace = move[0];
+    }
+    return scramble.join(' ');
+  }
+
+  function updateScramble() {
+    scrambleText.textContent = generateScramble();
+  }
+
+  // Save all relevant data to localStorage
+  function saveSettings() {
+    const data = {
+      darkMode: darkToggle.checked,
+      themeColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+      showNumbering: showNumberingCheckbox.checked,
+      autoScramble: autoScrambleCheckbox.checked,
+      solveCounter: solveCounter,
+      solveHistory: history.map(solve => ({
+        time: solve.time,
+        number: solve.number,
+        date: solve.date.toISOString()
+      }))
+    };
+    localStorage.setItem('cubeTimerData', JSON.stringify(data));
+  }
+
+  // Load data from localStorage
+  function loadSettings() {
+    const saved = localStorage.getItem('cubeTimerData');
+    if (!saved) {
+      // No saved data, initialize defaults
+      updateScramble();
+      return;
+    }
+    const data = JSON.parse(saved);
+
+    // Restore dark mode
+    if (data.darkMode) {
+      body.classList.add('dark-theme');
+      darkToggle.checked = true;
+    } else {
+      body.classList.remove('dark-theme');
+      darkToggle.checked = false;
+    }
+
+    // Restore theme color
+    if (data.themeColor) {
+      document.documentElement.style.setProperty('--primary-color', data.themeColor);
+      themeOptions.forEach(o => o.classList.remove('active'));
+      let matched = false;
+      themeOptions.forEach(o => {
+        if (o.dataset.theme.toLowerCase() === data.themeColor.toLowerCase()) {
+          o.classList.add('active');
+          matched = true;
+        }
+      });
+      if (!matched) customColor.value = data.themeColor;
+    }
+
+    // Restore show numbering and auto scramble
+    showNumberingCheckbox.checked = typeof data.showNumbering === 'boolean' ? data.showNumbering : true;
+    autoScrambleCheckbox.checked = typeof data.autoScramble === 'boolean' ? data.autoScramble : true;
+
+    // Restore solve history
+    solveCounter = data.solveCounter || 0;
+    if (Array.isArray(data.solveHistory)) {
+      history = data.solveHistory.map(solve => ({
+        time: solve.time,
+        number: solve.number,
+        date: new Date(solve.date)
+      }));
+      historyList.innerHTML = '';
+      history.forEach(solveData => addHistoryItemToDOM(solveData));
+      updateStats();
+    }
+
+    updateScramble();
+  }
+
+  function startPreparing() {
+    if (!timing && !preparing) {
+      preparing = true;
+      timerState.textContent = 'Set';
+      timerEl.style.color = '#0f0';
+      timerContainer.classList.add('preparing');
+    }
+  }
+
+  function stopOrStart() {
+    if (timing) {
+      clearInterval(interval);
+      const endTime = performance.now();
+      const duration = ((endTime - startTime) / 1000).toFixed(3);
+      solveCounter++;
+      addToHistory(duration, solveCounter);
+      updateStats();
+      timerState.textContent = 'Ready';
+      timerEl.style.color = '';
+      timerContainer.classList.remove('timing');
+      timing = false;
+
+      if (autoScrambleCheckbox.checked) updateScramble();
+
+      saveSettings();
+    } else if (preparing) {
+      startTime = performance.now();
+      timerState.textContent = 'Timing...';
+      timerEl.style.color = '';
+      timerContainer.classList.remove('preparing');
+      timerContainer.classList.add('timing');
+      interval = setInterval(() => {
+        const time = ((performance.now() - startTime) / 1000).toFixed(3);
+        timerEl.textContent = time;
+      }, 10);
+      timing = true;
+      preparing = false;
+    }
+  }
+
+
+  // add history item to DOM
+  function addHistoryItemToDOM(solveData) {
+    const item = document.createElement('div');
+    item.className = 'history-item';
+
+    const numberSpan = document.createElement('span');
+    numberSpan.className = 'solve-number';
+    numberSpan.textContent = `#${solveData.number}`;
+    numberSpan.style.display = showNumberingCheckbox.checked ? 'block' : 'none';
+
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'solve-time';
+    timeSpan.textContent = solveData.time.toFixed(3);
+
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'solve-date';
+    dateSpan.textContent = solveData.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.textContent = '×';
+    deleteBtn.addEventListener('click', () => {
+      const index = [...historyList.children].indexOf(item);
+      history.splice(index, 1);
+      item.remove();
+      updateStats();
+      saveSettings();
+    });
+
+    item.appendChild(numberSpan);
+    item.appendChild(timeSpan);
+    item.appendChild(dateSpan);
+    item.appendChild(deleteBtn);
+
+    historyList.prepend(item);
+  }
+
+  function addToHistory(time, number) {
+    const solveData = {
+      time: parseFloat(time),
+      number: number,
+      date: new Date()
+    };
+    history.unshift(solveData);
+    addHistoryItemToDOM(solveData);
+  }
+
+  function updateStats() {
+    document.getElementById('ao5').textContent = getAverage(5);
+    document.getElementById('ao12').textContent = getAverage(12);
+    if (history.length > 0) {
+      const times = history.map(solve => solve.time);
+      document.getElementById('best-time').textContent = Math.min(...times).toFixed(3);
+      document.getElementById('worst-time').textContent = Math.max(...times).toFixed(3);
+    } else {
+      document.getElementById('best-time').textContent = '-';
+      document.getElementById('worst-time').textContent = '-';
+    }
+  }
+
+  function getAverage(n) {
+    if (history.length < n) return '-';
+    const subset = history.slice(0, n).map(solve => solve.time);
+    const sum = subset.reduce((a, b) => a + b, 0);
+    return (sum / n).toFixed(3);
+  }
+
+  // Clear all history with confirmation
+  function clearAllHistory() {
+    history = [];
+    solveCounter = 0;
+    historyList.innerHTML = '';
+    updateStats();
+    saveSettings();
+  }
+
+  // Event listeners
+  darkToggle.addEventListener('change', function () {
+    body.classList.toggle('dark-theme', this.checked);
+    saveSettings();
+  });
+
+  themeOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      themeOptions.forEach(o => o.classList.remove('active'));
+      option.classList.add('active');
+      const themeColor = option.dataset.theme;
+      document.documentElement.style.setProperty('--primary-color', themeColor);
+      customColor.value = themeColor;
+      saveSettings();
+    });
+  });
+
+  customColor.addEventListener('input', (e) => {
+    const color = e.target.value;
+    themeOptions.forEach(o => o.classList.remove('active'));
+    document.documentElement.style.setProperty('--primary-color', color);
+    saveSettings();
+  });
+
+  newScrambleBtn.addEventListener('click', updateScramble);
+
+  showNumberingCheckbox.addEventListener('change', function() {
+    const historyItems = historyList.querySelectorAll('.history-item');
+    historyItems.forEach(item => {
+      const numberEl = item.querySelector('.solve-number');
+      if (numberEl) {
+        numberEl.style.display = this.checked ? 'block' : 'none';
+      }
+    });
+    saveSettings();
+  });
+
+  autoScrambleCheckbox.addEventListener('change', saveSettings);
+
+  clearHistoryBtn.addEventListener('click', () => {
+    if (history.length === 0) {
+      alert('No history to clear!');
+      return;
+    }
+    confirmationModal.style.display = 'flex';
+  });
+
+  cancelClearBtn.addEventListener('click', () => {
+    confirmationModal.style.display = 'none';
+  });
+
+  confirmClearBtn.addEventListener('click', () => {
+    clearAllHistory();
+    confirmationModal.style.display = 'none';
+  });
+
+  confirmationModal.addEventListener('click', (e) => {
+    if (e.target === confirmationModal) {
+      confirmationModal.style.display = 'none';
+    }
+  });
+
+  exportHistoryBtn.addEventListener('click', exportHistory);
+  downloadAppBtn.addEventListener('click', downloadApp);
+
+  // Keyboard timer control
+  document.addEventListener('keydown', function (e) {
+    if (e.code === 'Space' && document.activeElement === document.body) {
+      e.preventDefault();
+      if (!timing) {
+        prepping();
+      }
+    }
+  });
+
+  document.addEventListener('keyup', function (e) {
+    if (e.code === 'Space' && document.activeElement === document.body) {
+      e.preventDefault();
+      stopOrStart();
+    }
+  });
+
+  // Mouse timer control
+  timerContainer.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    prepping();
+  });
+
+  timerContainer.addEventListener('mouseup', function (e) {
+    e.preventDefault();
+    stopOrStart();
+  });
+
+  timerContainer.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+
+  timerContainer.addEventListener('mouseleave', function (e) {
+    if (preparing && !timing) {
+      preparing = false;
+      timerState.textContent = 'Ready';
+      timerEl.style.color = '';
+      timerContainer.classList.remove('preparing');
+    }
+  });
+
+  function prepping() {
+    if (!timing && !preparing) {
+      preparing = true;
+      timerState.textContent = 'Set';
+      timerEl.style.color = '#0f0';
+      timerContainer.classList.add('preparing');
+    }
+  }
+
+  function stopOrStart() {
+    if (timing) {
+      clearInterval(interval);
+      const endTime = performance.now();
+      const duration = ((endTime - startTime) / 1000).toFixed(3);
+      solveCounter++;
+      addToHistory(duration, solveCounter);
+      updateStats();
+      timerState.textContent = 'Ready';
+      timerEl.style.color = '';
+      timerContainer.classList.remove('timing');
+      timing = false;
+
+      if (autoScrambleCheckbox.checked) updateScramble();
+
+      saveSettings();
+    } else if (preparing) {
+      startTime = performance.now();
+      timerState.textContent = 'Timing...';
+      timerEl.style.color = '';
+      timerContainer.classList.remove('preparing');
+      timerContainer.classList.add('timing');
+      interval = setInterval(() => {
+        const time = ((performance.now() - startTime) / 1000).toFixed(3);
+        timerEl.textContent = time;
+      }, 10);
+      timing = true;
+      preparing = false;
+    }
+  }
+
+  // Export history
+  function exportHistory() {
+    if (history.length === 0) {
+      alert('No history to export!');
+      return;
+    }
+    const exportData = {
+      exportDate: new Date().toISOString(),
+      totalSolves: history.length,
+      solves: history.map(solve => ({
+        number: solve.number,
+        time: solve.time,
+        date: solve.date.toISOString()
+      }))
+    };
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    const url = URL.createObjectURL(dataBlob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `cube-timer-history-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  // Download the app as HTML file
+  function downloadApp() {
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'cube-timer.html';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  loadSettings();
+});
+
+
+  </script>
+ 
+</body>
+</html>
