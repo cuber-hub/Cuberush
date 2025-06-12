@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cube Timer</title>
+  <title>TwistyTime | Track Your Rubik's Cube Solves Like a Pro</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEN1YmUgSWNvbiAtLT4KICA8cGF0aCBkPSJNNiA4TDEyIDRMMjYgMTBMMjAgMTRMNiA4WiIgZmlsbD0iIzAwN2JmZiIvPgogIDxwYXRoIGQ9Ik02IDhWMjJMMTIgMjZWMTJMNiA4WiIgZmlsbD0iIzAwNTZiMyIvPgogIDxwYXRoIGQ9Ik0xMiAyNkwyNiAyMlYxMEwyMCAxNEwxMiAyNloiIGZpbGw9IiMwMDQ2OWIiLz4KPC9zdmc+" />
+  <meta name="description" content="Use TwistyTime, a fast and free Rubik’s Cube timer app for speedcubers. Track solve history, calculate averages like Ao5 and Ao12, and improve your speedcubing.">
+  <meta name="keywords" content="Rubik's Cube timer, cube timer app, speedcubing timer, online cube timer, solve tracker, cube timer with Ao5, Rubik's Cube stopwatch, dark mode cube timer, smart cube timer, best cube timer online">
+
   <style>
     :root {
       --primary-color: #007bff;
@@ -551,7 +555,54 @@
         min-width: 400px;
       }
     }
- 
+    .sidebar{
+animation-name: sidebar;
+animation-duration: 0.7s;
+animation-timing-function: ease-in-out;
+    }
+    @keyframes sidebar {
+from{
+   transform: translateX(-500px);
+   opacity: 0;
+}
+to{
+   transform: translateX(0px);
+   opacity: 100;
+}
+
+    }
+.scramble-container{
+animation-name: upper;
+animation-duration: 0.7s;
+animation-timing-function: ease-in-out;
+    }
+    @keyframes upper{
+        from{
+            transform: translateY(-200px);
+        }
+        to{
+            transform: translateY(0px);
+        }
+    }
+    header{
+      animation-name: upper;
+animation-duration: 0.7s;
+animation-timing-function: ease-in-out;
+    }
+ .timer-container{
+animation-duration: 0.9s;
+animation-name: uppe;
+animation-timing-function: ease-in-out;
+ }
+  @keyframes uppe{
+        from{
+ opacity: 0;
+        }
+        to{
+           opacity: 100; 
+        }
+    }
+
   </style>
 </head>
 <body>
@@ -562,7 +613,7 @@
         <path d="M6 8V22L12 26V12L6 8Z" fill="currentColor" opacity="0.7"/>
         <path d="M12 26L26 22V10L20 14L12 26Z" fill="currentColor" opacity="0.5"/>
       </svg>
-      <h1>Cube Timer</h1>
+      <h1>TwistyTime</h1>
     </header>
     
     <div class="scramble-container">
