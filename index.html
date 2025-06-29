@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TwistyTimer | Professional Rubik's cube Timer/Solve tracker</title>
   <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#1F1F1F">
-<link rel="shortcut icon" href="r.svg" type="image/x-icon">
-  <meta name="description" content="Use TwistyTime, a fast and free Rubik’s Cube timer app for speedcubers. Track solve history, calculate averages like Ao5 and Ao12, and improve your speedcubing.">
-  <meta name="keywords" content="cube timer,online cube timer,Rubik’s cube timer,speedcube timer,3x3 cube timer,cstimer alternative,twisty cube timer,cubing timer online,free Rubik's cube timer,best cube timertimer, cstimer, rubiks cube timer, online timer, web timer ,twistytime ,twistytimer">
+  <meta name="theme-color" content="#1F1F1F">
+  <link rel="shortcut icon" href="r.svg" type="image/x-icon">
+  <meta name="description"
+    content="Use TwistyTime, a fast and free Rubik’s Cube timer app for speedcubers. Track solve history, calculate averages like Ao5 and Ao12, and improve your speedcubing.">
+  <meta name="keywords"
+    content="cube timer,online cube timer,Rubik’s cube timer,speedcube timer,3x3 cube timer,cstimer alternative,twisty cube timer,cubing timer online,free Rubik's cube timer,best cube timertimer, cstimer, rubiks cube timer, online timer, web timer ,twistytime ,twistytimer">
 
-  <style>    :root {      --primary-color: #121212;
+  <style>
+    :root {
+      --primary-color: #121212;
       --bg-color: #ffffff;
       --text-color: #333;
       --accent: #f0f0f0;
@@ -28,7 +33,9 @@
       color: var(--text-color);
       transition: background-color 0.3s, color 0.3s;
       overflow-x: hidden;
-    }    body.dark-theme {
+    }
+
+    body.dark-theme {
       --bg-color: #121212;
       --text-color: #eee;
       --accent: #1f1f1f;
@@ -87,7 +94,9 @@
       gap: 1rem;
       align-items: center;
       flex-wrap: wrap;
-    }    .scramble-btn {
+    }
+
+    .scramble-btn {
       background-color: #dc3545;
       color: white;
       border: none;
@@ -95,7 +104,9 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 0.9rem;
-    }    .scramble-btn:hover {
+    }
+
+    .scramble-btn:hover {
       opacity: 0.9;
     }
 
@@ -135,12 +146,14 @@
       transition: background-color 0.2s;
       z-index: 10;
       min-width: 300px;
-      height: 220px; /* Added fixed height to prevent vertical shifting */
+      height: 220px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-    }    .timer-container:hover {
+    }
+
+    .timer-container:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
 
@@ -150,7 +163,9 @@
 
     .timer-container.timing {
       background-color: rgba(255, 165, 0, 0.1);
-    }    #timer {
+    }
+
+    #timer {
       font-size: 8rem;
       margin: 1rem 0;
       font-weight: bold;
@@ -170,9 +185,11 @@
       margin-bottom: 0.5rem;
     }
 
-    h2, h3 {
+    h2,
+    h3 {
       margin-top: 1.5rem;
     }
+  
 
     .theme-options {
       display: none !important;
@@ -186,7 +203,10 @@
       display: none !important;
     }
 
-    .theme-blue, .theme-green, .theme-red, .theme-purple {
+    .theme-blue,
+    .theme-green,
+    .theme-red,
+    .theme-purple {
       display: none !important;
     }
 
@@ -202,7 +222,9 @@
       margin-right: 10px;
     }
 
-    .switch input { display: none; }
+    .switch input {
+      display: none;
+    }
 
     .slider {
       position: absolute;
@@ -210,8 +232,10 @@
       background-color: #ccc;
       transition: 0.4s;
       border-radius: 20px;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
     }
 
     .slider:before {
@@ -224,11 +248,13 @@
       background-color: white;
       transition: 0.4s;
       border-radius: 50%;
-    }    .switch input:checked + .slider {
+    }
+
+    .switch input:checked+.slider {
       background-color: #121212;
     }
 
-    .switch input:checked + .slider:before {
+    .switch input:checked+.slider:before {
       transform: translateX(20px);
     }
 
@@ -243,7 +269,7 @@
       background: var(--bg-color);
       padding: 0.5rem;
       border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
 
@@ -296,7 +322,9 @@
 
     .dark-theme .scramble-container {
       border-color: #444;
-    }    .dark-theme .solve-date {
+    }
+
+    .dark-theme .solve-date {
       color: #aaa;
     }
 
@@ -319,7 +347,7 @@
       background: var(--bg-color);
       border: 1px solid #ccc;
       border-radius: 4px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       padding: 0.5rem 0;
       min-width: 120px;
       z-index: 1000;
@@ -386,7 +414,9 @@
       margin-top: 0.5rem;
       margin-bottom: 1rem;
       flex-wrap: wrap;
-    }    .clear-btn {
+    }
+
+    .clear-btn {
       background-color: #dc3545;
       color: white;
       border: none;
@@ -398,7 +428,9 @@
 
     .clear-btn:hover {
       opacity: 0.9;
-    }    .export-btn {
+    }
+
+    .export-btn {
       background-color: #121212;
       color: white;
       border: none;
@@ -459,7 +491,9 @@
     .cancel-btn {
       background-color: #6c757d;
       color: white;
-    }    .event-box {
+    }
+
+    .event-box {
       min-width: 120px;
       background: #fff;
       color: #333;
@@ -484,7 +518,9 @@
       border: 1px solid #aaa;
       background: #fff;
       color: #333;
-    }    body.dark-theme .event-box {
+    }
+
+    body.dark-theme .event-box {
       background: #121212;
       color: #fff;
       border-color: #444;
@@ -492,7 +528,9 @@
 
     body.dark-theme .scramble-container {
       border-color: #444;
-    }    body.dark-theme .event-box select {
+    }
+
+    body.dark-theme .event-box select {
       background: #121212;
       color: #fff;
       border-color: #444;
@@ -576,7 +614,9 @@
         height: 50vh;
         padding: 1rem;
         min-width: auto;
-      }      #timer {
+      }
+
+      #timer {
         font-size: 4.5rem;
         margin: 0.5rem 0;
       }
@@ -619,10 +659,12 @@
 
       .scramble-container {
         padding: 0.5rem;
-      }      .sidebar {
+      }
+
+      .sidebar {
         padding: 0.5rem;
       }
-      
+
       #timer {
         font-size: 3.5rem;
       }
@@ -644,18 +686,22 @@
         font-size: 0.9rem;
       }
 
-      .scramble-btn, .export-btn, .clear-btn {
+      .scramble-btn,
+      .export-btn,
+      .clear-btn {
         font-size: 0.8rem;
         padding: 0.4rem 0.6rem;
-       
+
       }
     }
-#new-scramble {
-     background-color:#dc3545;
-  }
+
+    #new-scramble {
+      background-color: #dc3545;
+    }
 
     /* Tablet Portrait */
-    @media (min-width: 769px) and (max-width: 1024px) {      .sidebar {
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .sidebar {
         width: 250px;
       }
 
@@ -678,60 +724,70 @@
         min-width: 400px;
       }
     }
-    .sidebar{
-animation-name: sidebar;
-animation-duration: 0.7s;
-animation-timing-function: ease-in-out;
+
+    .sidebar {
+      animation-name: sidebar;
+      animation-duration: 0.7s;
+      animation-timing-function: ease-in-out;
     }
+
     @keyframes sidebar {
-from{
-   transform: translateX(-500px);
-   opacity: 0;
-}
-to{
-   transform: translateX(0px);
-   opacity: 100;
-}
+      from {
+        transform: translateX(-500px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0px);
+        opacity: 100;
+      }
 
     }
-.scramble-container{
-animation-name: upper;
-animation-duration: 0.7s;
-animation-timing-function: ease-in-out;
-    }
-    @keyframes upper{
-        from{
-            transform: translateY(-200px);
-        }
-        to{
-            transform: translateY(0px);
-        }
-    }
-    header{
+
+    .scramble-container {
       animation-name: upper;
-animation-duration: 0.7s;
-animation-timing-function: ease-in-out;
-    }
- .timer-container{
-animation-duration: 0.9s;
-animation-name: uppe;
-animation-timing-function: ease-in-out;
- }
-  @keyframes uppe{
-        from{
- opacity: 0;
-        }
-        to{
-           opacity: 100; 
-        }
+      animation-duration: 0.7s;
+      animation-timing-function: ease-in-out;
     }
 
-.option:hover{
+    @keyframes upper {
+      from {
+        transform: translateY(-200px);
+      }
+
+      to {
+        transform: translateY(0px);
+      }
+    }
+
+    header {
+      animation-name: upper;
+      animation-duration: 0.7s;
+      animation-timing-function: ease-in-out;
+    }
+
+    .timer-container {
+      animation-duration: 0.9s;
+      animation-name: uppe;
+      animation-timing-function: ease-in-out;
+    }
+
+    @keyframes uppe {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 100;
+      }
+    }
+
+    .option:hover {
       background-color: #dc3545;
       color: #fff;
     }
 
-  .history-item.best-solve .solve-time {
+    .history-item.best-solve .solve-time {
       color: #28a745;
       font-weight: bold;
     }
@@ -748,19 +804,35 @@ animation-timing-function: ease-in-out;
     .dark-theme .history-item.worst-solve .solve-time {
       color: #ff4444;
     }
+    .rome{
+      background-color: #C93341;
+    }
 
+    #screenshot-btn {
+      background-color: #C93341 !important;
+      color: white;
+    }
+    #screenshot-btn:hover {
+      background-color: #b32a36 !important;
+    }
   </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <body>
+   <div id="screenshot-target">
   <div class="app-container">
     <header>
       <svg class="logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 8L12 4L26 10L20 14L6 8Z" fill="currentColor" opacity="0.9"/>
-        <path d="M6 8V22L12 26V12L6 8Z" fill="currentColor" opacity="0.7"/>
-        <path d="M12 26L26 22V10L20 14L12 26Z" fill="currentColor" opacity="0.5"/>
+        <path d="M6 8L12 4L26 10L20 14L6 8Z" fill="currentColor" opacity="0.9" />
+        <path d="M6 8V22L12 26V12L6 8Z" fill="currentColor" opacity="0.7" />
+        <path d="M12 26L26 22V10L20 14L12 26Z" fill="currentColor" opacity="0.5" />
       </svg>
+
       <h1>TwistyTimer</h1>
-    </header>      <div class="scramble-container" style="display: flex; align-items: flex-start; gap: 1rem;">
+
+    </header>
+    <div class="scramble-container" style="display: flex; align-items: flex-start; gap: 1rem;">
       <div style="flex: 1;">
         <div class="scramble-text" id="scramble-text">R U R' U' R' F R2 U' R' U' R U R' F'</div>
         <div class="scramble-controls">
@@ -785,13 +857,14 @@ animation-timing-function: ease-in-out;
           <option value="skewb" class="option">Skewb</option>
           <option value="square-1" class="option">Square-1</option>
           <option value="clock" class="option">Clock</option>
-         
+
         </select>
       </div>
     </div>
 
     <div class="content-container">
-      <div class="sidebar">        <div class="settings-section">
+      <div class="sidebar">
+        <div class="settings-section">
           <h2>Settings</h2>
           <div class="dark-mode-toggle">
             <label class="switch">
@@ -799,15 +872,18 @@ animation-timing-function: ease-in-out;
               <span class="slider"></span>
             </label>
             <span>Dark Mode</span>
-          </div>          
+          </div>
           <div class="inspection-toggle">
             <label class="switch">
               <input type="checkbox" id="wcaInspection">
-             
+
             </label>
-       
+
           </div>
-          
+        <div class="buttone">
+          <button id="screenshot-btn" class="rome" style="color: white; padding: 0.4rem 0.8rem; border: 0; background-color: #C93341; border-radius: 5px;">📸 Screenshot</button>
+
+        </div>
           <div class="theme-options">
             <div class="theme-option theme-blue" data-theme="#007bff"></div>
             <div class="theme-option theme-green" data-theme="#28a745"></div>
@@ -840,7 +916,8 @@ animation-timing-function: ease-in-out;
             <button class="export-btn" id="export-history">Export</button>
           </div>
           <div class="history-list" id="history-list"></div>
-        </div>      </div>
+        </div>
+      </div>
 
       <div class="main-content">
         <div class="timer-container" id="timer-container">
@@ -862,7 +939,9 @@ animation-timing-function: ease-in-out;
         <button class="modal-btn confirm-btn" id="confirm-clear">Clear All</button>
       </div>
     </div>
-  </div>  <script>
+  </div>
+  </div>
+  <script>
     const Timer = {
       elements: {
         timer: null,
@@ -877,7 +956,7 @@ animation-timing-function: ease-in-out;
         autoScramble: null,
         darkMode: null
       },
-      
+
       state: {
         interval: null,
         preparing: false,
@@ -926,7 +1005,7 @@ animation-timing-function: ease-in-out;
           const wideMoves = ['Rw', 'Lw', 'Uw', 'Dw', 'Fw', 'Bw', "Rw'", "Lw'", "Uw'", "Dw'", "Fw'", "Bw'", 'Rw2', 'Lw2', 'Uw2', 'Dw2', 'Fw2', 'Bw2'];
           let scramble = [];
           let lastFace = '';
-          
+
           // First part: regular moves
           for (let i = 0; i < 20; i++) {
             let move;
@@ -936,7 +1015,7 @@ animation-timing-function: ease-in-out;
             scramble.push(move);
             lastFace = move[0];
           }
-          
+
           // Second part: wide moves
           for (let i = 0; i < 20; i++) {
             let move = wideMoves[Math.floor(Math.random() * wideMoves.length)];
@@ -982,14 +1061,14 @@ animation-timing-function: ease-in-out;
           const moves = ['L', 'R', 'U', 'B', "L'", "R'", "U'", "B'"];
           const tips = ['l', 'r', 'u', 'b', "l'", "r'", "u'", "b'"];
           let scramble = [];
-          
+
           // Add tips (0-2 for each tip)
           for (let i = 0; i < 4; i++) {
             if (Math.random() < 0.75) {
               scramble.push(tips[Math.floor(Math.random() * tips.length)]);
             }
           }
-          
+
           // Add regular moves
           for (let i = 0; i < 8; i++) {
             scramble.push(moves[Math.floor(Math.random() * moves.length)]);
@@ -1011,24 +1090,24 @@ animation-timing-function: ease-in-out;
         'clock': () => {
           const moves = ['UR', 'DR', 'DL', 'UL', 'U', 'R', 'D', 'L', 'ALL'];
           let scramble = [];
-          
+
           // First face
           for (let i = 0; i < 9; i++) {
             const move = moves[i];
             const amount = Math.floor(Math.random() * 12) - 5;
             scramble.push(`${move}${amount > 0 ? '+' : ''}${amount}`);
           }
-          
+
           // Flip
           scramble.push('y2');
-          
+
           // Second face
           for (let i = 0; i < 4; i++) {
             const move = moves[i];
             const amount = Math.floor(Math.random() * 12) - 5;
             scramble.push(`${move}${amount > 0 ? '+' : ''}${amount}`);
           }
-          
+
           return scramble.join(' ');
         }
       },
@@ -1048,7 +1127,7 @@ animation-timing-function: ease-in-out;
           scramble.push(move);
         }
         return scramble.join(' ');
-      },      init() {
+      }, init() {
         this.initElements();
         this.setupEventListeners();
         this.loadSettings();
@@ -1143,7 +1222,7 @@ animation-timing-function: ease-in-out;
             date: solve.date,
             event: solve.event
           })), null, 2);
-          
+
           const blob = new Blob([data], { type: 'application/json' });
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
@@ -1180,11 +1259,11 @@ animation-timing-function: ease-in-out;
         this.elements.timer.style.color = '#ff0';
         this.elements.timer.textContent = '15';
         this.elements.timerState.textContent = 'Inspection';
-        
+
         this.state.inspectionInterval = setInterval(() => {
           const elapsed = Math.floor((Date.now() - this.state.inspectionStartTime) / 1000);
           const remaining = 15 - elapsed;
-          
+
           if (remaining >= 0) {
             this.elements.timer.textContent = remaining.toString();
             if (remaining <= 8) {
@@ -1201,13 +1280,13 @@ animation-timing-function: ease-in-out;
             }, 2000);
           }
         }, 100);
-      },      stopOrStart() {
+      }, stopOrStart() {
         if (this.state.timing) {
           clearInterval(this.state.interval);
           const endTime = performance.now();
           const duration = ((endTime - this.state.startTime) / 1000).toFixed(3);
           this.state.solveCounter++;
-          
+
           if (this.state.inspectionStartTime > 0) {
             const inspectionDuration = (this.state.startTime - this.state.inspectionStartTime) / 1000;
             if (inspectionDuration > 15 && inspectionDuration <= 17) {
@@ -1219,7 +1298,7 @@ animation-timing-function: ease-in-out;
           } else {
             this.addToHistory(duration);
           }
-          
+
           document.body.classList.remove('timing-active');
           this.elements.timerState.textContent = 'Ready';
           this.elements.timer.style.color = '';
@@ -1235,7 +1314,7 @@ animation-timing-function: ease-in-out;
             clearInterval(this.state.inspectionInterval);
             this.state.isInspecting = false;
           }
-            this.state.startTime = performance.now();
+          this.state.startTime = performance.now();
           this.elements.timerState.textContent = 'Timing...';
           this.elements.timer.style.color = '';
           this.elements.timerContainer.classList.remove('preparing');
@@ -1265,15 +1344,15 @@ animation-timing-function: ease-in-out;
         const solveData = {
           time: parseFloat(time),
           number: this.state.solveCounter,
-          date: new Date(),          event: this.elements.eventSelect.value
+          date: new Date(), event: this.elements.eventSelect.value
         };
         this.state.history.unshift(solveData);
         this.addHistoryItemToDOM(solveData);
         this.updateStats();
-      },      addHistoryItemToDOM(solveData) {
+      }, addHistoryItemToDOM(solveData) {
         const item = document.createElement('div');
         item.className = 'history-item';
-        
+
         const numberSpan = document.createElement('span');
         numberSpan.className = 'solve-number';
         numberSpan.textContent = `#${solveData.number}`;
@@ -1284,7 +1363,7 @@ animation-timing-function: ease-in-out;
         timeSpan.textContent = solveData.time.toFixed(3);
         if (solveData.isDNF) timeSpan.classList.add('dnf');
         if (solveData.isPlus2) timeSpan.classList.add('plus2');
-        
+
         // Check if this is a best or worst time
         if (this.state.history.length > 0) {
           const times = this.state.history.map(solve => solve.time);
@@ -1296,7 +1375,7 @@ animation-timing-function: ease-in-out;
 
         const dateSpan = document.createElement('span');
         dateSpan.className = 'solve-date';
-        dateSpan.textContent = `${solveData.event} ${solveData.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+        dateSpan.textContent = `${solveData.event} ${solveData.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 
         if (solveData.comment) {
           const commentDiv = document.createElement('div');
@@ -1313,13 +1392,13 @@ animation-timing-function: ease-in-out;
           const menu = this.createSolveMenu(solveData, item);
           // Close any other open menus
           document.querySelectorAll('.solve-menu').forEach(m => m !== menu && m.remove());
-          
+
           // Position the menu
           const rect = menuBtn.getBoundingClientRect();
           menu.style.top = rect.bottom + 'px';
           menu.style.left = rect.left + 'px';
           menu.style.display = 'block';
-          
+
           // Close menu when clicking outside
           const closeMenu = (e) => {
             if (!menu.contains(e.target) && e.target !== menuBtn) {
@@ -1349,7 +1428,7 @@ animation-timing-function: ease-in-out;
         item.appendChild(menuBtn);
         item.appendChild(deleteBtn);
         this.elements.historyList.prepend(item);
-      },      updateStats() {
+      }, updateStats() {
         document.getElementById('ao5').textContent = this.getAverage(5);
         document.getElementById('ao12').textContent = this.getAverage(12);
         if (this.state.history.length > 0) {
@@ -1358,7 +1437,7 @@ animation-timing-function: ease-in-out;
           const worstTime = Math.max(...times);
           document.getElementById('best-time').textContent = bestTime.toFixed(3);
           document.getElementById('worst-time').textContent = worstTime.toFixed(3);
-          
+
           // Update highlighting for all history items
           this.elements.historyList.querySelectorAll('.history-item').forEach(item => {
             item.classList.remove('best-solve', 'worst-solve');
@@ -1371,18 +1450,18 @@ animation-timing-function: ease-in-out;
           document.getElementById('best-time').textContent = '-';
           document.getElementById('worst-time').textContent = '-';
         }
-      },      getAverage(n) {
+      }, getAverage(n) {
         if (this.state.history.length < n) return '-';
         const solves = this.state.history.slice(0, n);
-        
+
         // If too many DNFs, return DNF
         const dnfCount = solves.filter(solve => solve.isDNF).length;
         if (dnfCount > Math.ceil(n * 0.2)) return 'DNF';
-        
+
         const times = solves.map(solve => solve.isDNF ? Infinity : solve.time);
         const min = Math.min(...times);
         const max = Math.max(...times);
-        
+
         // For Ao5 and larger, remove best and worst times
         let sum = 0;
         let count = 0;
@@ -1397,7 +1476,7 @@ animation-timing-function: ease-in-out;
           sum = times.reduce((a, b) => a + b, 0);
           count = n;
         }
-        
+
         return (sum / count).toFixed(3);
       },
 
@@ -1406,7 +1485,7 @@ animation-timing-function: ease-in-out;
         this.elements.historyList.querySelectorAll('.solve-number').forEach(el => {
           el.style.display = show ? 'block' : 'none';
         });
-      },      saveSettings() {
+      }, saveSettings() {
         try {
           const data = {
             darkMode: this.elements.darkMode.checked,
@@ -1436,19 +1515,19 @@ animation-timing-function: ease-in-out;
           const saved = localStorage.getItem('cubeTimerData');
           if (saved) {
             const data = JSON.parse(saved);
-            
+
             this.elements.darkMode.checked = data.darkMode === true;
             document.body.classList.toggle('dark-theme', data.darkMode === true);
-            
+
             this.elements.showNumbering.checked = data.showNumbering !== false;
             this.elements.autoScramble.checked = data.autoScramble !== false;
             this.elements.wcaInspection.checked = data.wcaInspection === true;
-            
+
             if (data.currentEvent) {
               this.elements.eventSelect.value = data.currentEvent;
             }
             if (Array.isArray(data.solveHistory)) {
-              this.state.solveCounter = data.solveCounter || 0;              this.state.history = data.solveHistory.map(solve => ({
+              this.state.solveCounter = data.solveCounter || 0; this.state.history = data.solveHistory.map(solve => ({
                 time: solve.time,
                 number: solve.number,
                 date: new Date(solve.date),
@@ -1457,7 +1536,7 @@ animation-timing-function: ease-in-out;
                 isPlus2: solve.isPlus2 || false,
                 comment: solve.comment || ''
               }));
-              
+
               this.elements.historyList.innerHTML = '';
               this.state.history.forEach(solveData => this.addHistoryItemToDOM(solveData));
               this.updateStats();
@@ -1467,7 +1546,7 @@ animation-timing-function: ease-in-out;
           console.error('Error loading settings:', error);
           localStorage.removeItem('cubeTimerData');
         }
-      },      setInitialTheme() {
+      }, setInitialTheme() {
         document.querySelector('header').style.backgroundColor = '#121212';
         document.querySelectorAll('button').forEach(btn => {
           if (!btn.classList.contains('delete-btn') && !btn.classList.contains('clear-btn')) {
@@ -1545,16 +1624,49 @@ animation-timing-function: ease-in-out;
 
     // Initialize timer when page loads
     document.addEventListener('DOMContentLoaded', () => Timer.init());
-        if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('SW registered:', reg))
-      .catch(err => console.error('SW failed:', err));
-  });
-}
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('SW registered:', reg))
+          .catch(err => console.error('SW failed:', err));
+      });
+    }
 
   </script>
+<script>
+  const screenshotBtn = document.getElementById("screenshot-btn");
+
+  screenshotBtn.addEventListener("click", () => {
+    alert("It will only take the screenshot of the visible part of the page, not the full page. If you want to take a full page screenshot, use the browser's built-in screenshot feature.");
+    screenshotBtn.style.visibility = "hidden"; // hide button
+
+    const target = document.getElementById("screenshot-target");
+
+    setTimeout(() => {
+      html2canvas(target, {
+        useCORS: true,
+        backgroundColor: getComputedStyle(document.body).backgroundColor,
+        scrollY: -window.scrollY,
+        scrollX: -window.scrollX,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight
+      }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "full-page-screenshot.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        screenshotBtn.style.visibility = "visible"; // restore button
+      }).catch(err => {
+        console.error("Screenshot failed:", err);
+        alert("Screenshot failed. See console.");
+        screenshotBtn.style.visibility = "visible";
+      });
+    }, 100);
+  });
+</script>
+
 </body>
+
 </html>
 
 </html>
