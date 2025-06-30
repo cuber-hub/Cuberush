@@ -1,6 +1,6 @@
 {
-  "name": "TwistyTime",
-  "short_name": "TwistyTime",
+  "name": "TwistyTimer",
+  "short_name": "TwistyTimer",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#000000",
