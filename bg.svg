@@ -1,0 +1,7 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <g transform="scale(1.5) translate(-4, -4)"> <!-- Scale and center -->
+    <path d="M6 8L12 4L26 10L20 14L6 8Z" fill="currentColor" opacity="0.9" />
+    <path d="M6 8V22L12 26V12L6 8Z" fill="currentColor" opacity="0.7" />
+    <path d="M12 26L26 22V10L20 14L12 26Z" fill="currentColor" opacity="0.5" />
+  </g>
+</svg>
