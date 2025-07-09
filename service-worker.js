@@ -1,4 +1,4 @@
-const CACHE_NAME = 'twistytimer-cache-v1';
+const CACHE_NAME = 'Cuberush-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html'
